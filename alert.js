@@ -367,3 +367,5 @@ const getTopRatedDirector = ( directors, avgRatings) => {
 }
 
 console.log(getTopRatedDirector(directors, avgRatingsMovi))
+
+
