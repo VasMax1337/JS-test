@@ -58,7 +58,6 @@ const shoes = {
     dob: '05.12.1998',          // Дата рождения (Date of birth)
     phoneNumber:'+79519949444',
     email:'meyra689@yandex.ru',
-    city: 'Новочеркасск'
   }
   
   const address = {
@@ -111,8 +110,8 @@ const shoes = {
 
 Проверь, есть ли среди аксессуаров (accessories) объект phone
 
-Выведи страну-производителя автомобиля (manufacturerCountry)
-
+Выведи страну-производителя автомобиля (manufacturerCountry)*/
+/*
 🔹 Уровень 2 (Массивы и объекты)
 Найди все вещи бренда "Nike" (пройди по wear и accessories)
 
@@ -120,8 +119,8 @@ const shoes = {
 
 Получи массив названий (name) всех аксессуаров
 
-Выведи, действительны ли права (driversLicense) до 2030 года (сравни с текущим годом)
-
+Выведи, действительны ли права (driversLicense) до 2030 года (сравни с текущим годом)*/
+/*
 🔹 Уровень 3 (Глубокая работа с данными)
 Измени город в адресе (address.city) на "Москва" и проверь, что он изменился и в personalData
 
@@ -129,8 +128,8 @@ const shoes = {
 
 Создай массив всех уникальных брендов (из wear, accessories, car)
 
-Проверь, есть ли среди вещей (wear) хотя бы один предмет с названием длиннее 5 символов
-
+Проверь, есть ли среди вещей (wear) хотя бы один предмет с названием длиннее 5 символов*/
+/*
 🔹 Уровень 4 (Комбинированные)
 Напиши функцию, которая принимает объект human и возвращает строку:
 "Максим из Новочеркасска владеет Hyundai Elantra 2010 года" (данные подставляй динамически)
@@ -140,16 +139,13 @@ const shoes = {
 Преобразуй массив wear в строку вида:
 "Надето: Кроссовки Puma, Носки Nike, Штаны Outventure..."
 
-Проверь, все ли аксессуары (accessories) содержат поле name (верни true/false)
-
+Проверь, все ли аксессуары (accessories) содержат поле name (верни true/false)*/
+/*
 🔹 Уровень 5 (Сложные манипуляции)
 Найди самый старый предмет одежды (сравни по первому символу в name, как будто это год)
 
 Создай копию объекта human без автомобиля (car) (используй деструктуризацию или Object.assign)
-
-Отсортируй аксессуары (accessories) по длине значения name (по возрастанию)
-
-Посчитай общее количество символов во всех строковых значениях объекта human (рекурсивно)*/
+*/
 
 //🔹 Уровень 1
 
@@ -171,8 +167,6 @@ console.log(myCar.manufacturerCountry) // 1.4
 //🔹 Уровень 2
 
 const wearNike = human.wear.filter(title => title.name === 'Nike')  // 2.1
-
-
 const accessoriesNike = human.accessories.filter(title => {
   if(!title.name) return false
   if(Array.isArray(title.name)) {
@@ -188,7 +182,7 @@ console.log(accessoriesWearNike)
 console.log(human.wear.length)  // 2.2
 
 
-const accessoriesName = human.accessories //2.3
+const accessoriesName = human.accessories // 2.3
 .filter(title => title.name)
 .map(title => {  
   if(Array.isArray(title.name)) {
@@ -201,12 +195,155 @@ console.log(accessoriesName)
 
 
 
-const currentYear = new Date().getFullYear(); //2.4
+const currentYear = new Date().getFullYear(); // 2.4
 
 const isLicenseValidUntil2030 = human.accessories
 .filter(title => title.validUntil >= currentYear)
 
 console.log(isLicenseValidUntil2030)
+
+//🔹 Уровень 3
+
+const cityObj = human.personalData.find((title) => title.city) // 3.1
+
+cityObj.city = 'Москва'
+
+console.log(human.personalData)
+
+
+
+const allItems = [...human.accessories, ...human.wear] // 3.2
+
+const typeString = allItems.filter(title => title.type && typeof title.type === 'string')
+
+console.log(typeString)
+
+
+
+const uniqueBrands = allItems // 3.3
+.filter(title => title.name)
+.map(title => title.name)
+
+const allBrands = [human.car.brand, ...uniqueBrands]
+
+const newSetBrands = [...new Set(allBrands)]
+
+console.log([...newSetBrands])
+
+
+
+const hasLongName = human.wear.some(title => title.name.length > 5) // 3.4
+
+console.log(hasLongName)
+
+//🔹 Уровень 4
+
+const getUserInfo = (human) => {  // 4.1
+     return `${human.name} из ${human.personalData[1].city} владеет ${human.car.brand} ${human.car.model} ${human.car.year} года`
+}
+
+console.log(getUserInfo(human))
+
+
+
+const watch = {  // 4.2
+  name: 'apple',
+  price: 30000
+}
+
+human.accessories.push(watch)
+
+console.log(human.accessories)
+
+
+
+const wearText = human.wear.map(title => `${title.name} ${title.type}`).join(', ') // 4.3
+
+console.log(wearText)
+
+
+
+const allHaveNames = human.accessories.every(title => title.name) // 4.4
+
+console.log(allHaveNames)
+
+//🔹 Уровень 5
+
+// const oldestItem = human.wear
+// .map(title => title.name[0])
+// .sort((a, b) => a.localeCompare(b))
+
+// console.log(oldestItem)
+
+const clothes = human.wear // 5.1
+
+const oldestClothing = clothes.reduce((oldest, current) => {
+  let oldestChar = oldest.name[0].toLocaleLowerCase()
+  let currentChar = current.name[0].toLocaleLowerCase()
+
+  if(currentChar < oldestChar) {
+    return current
+  }
+  return oldest
+})
+
+console.log(oldestClothing)
+
+// 5.2
+// Способ 1: Деструктуризация + rest-оператор (...)
+
+const {car, ...humanCopy} = human
+
+console.log(humanCopy)
+
+// Способ 2: Object.assign + удаление свойства
+
+const userCopy = Object.assign({}, human)
+
+delete userCopy.car
+
+console.log(userCopy)
+
+// Способ 3: Современный structuredClone (глубокая копия)
+
+const humanClon = structuredClone(human)
+
+delete humanClon.car
+
+console.log(humanClon)
+
+// Способ 4: Использование JSON.parse + JSON.stringify
+
+const userString = JSON.stringify(human, ['name', 'age', 'personalData', 'wear', 'accessories'])
+const userParse = JSON.parse(userString)
+
+console.log(userParse)
+
+// Способ 5: Функция omit (аналог Lodash) ПОЗЖЕ!!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
